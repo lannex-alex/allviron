@@ -92,6 +92,13 @@ class MrpProduction(models.Model):
                 values['routing_id'] = self.env['mrp.routing'].browse(bom.route_id.ids[0]).id
                 bom.write({'routing_id': self.env['mrp.routing'].browse(bom.route_id.ids[0]).id})
 
+        if values.get('origin'):
+            parent_mo = self.env['mrp.production'].search([('name', '=', str(values.get('origin')))])
+            if parent_mo:
+                if 'x_studio_client' in self.env['mrp.production']._fields:
+                    values['x_studio_client'] = parent_mo.x_studio_client
+                if 'x_studio_po' in self.env['mrp.production']._fields:
+                    values['x_studio_po'] = parent_mo.x_studio_po
         return super(MrpProduction, self).create(values)
        
         # if not production.routing_id:
