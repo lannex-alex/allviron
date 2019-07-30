@@ -88,9 +88,10 @@ class MrpProduction(models.Model):
                 bom.write({'routing_id': bom.sub_route_id.id})
                 
             else:
-                values['route_id'] = self.env['mrp.routing'].browse(bom.route_id.ids[0]).id
-                values['routing_id'] = self.env['mrp.routing'].browse(bom.route_id.ids[0]).id
-                bom.write({'routing_id': self.env['mrp.routing'].browse(bom.route_id.ids[0]).id})
+                if bom.route_id:
+                    values['route_id'] = self.env['mrp.routing'].browse(bom.route_id.ids[0]).id
+                    values['routing_id'] = self.env['mrp.routing'].browse(bom.route_id.ids[0]).id
+                    bom.write({'routing_id': self.env['mrp.routing'].browse(bom.route_id.ids[0]).id})
 
         if values.get('origin'):
             parent_mo = self.env['mrp.production'].search([('name', '=', str(values.get('origin')))])
