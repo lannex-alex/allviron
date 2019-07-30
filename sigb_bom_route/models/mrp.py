@@ -76,6 +76,8 @@ class MrpProduction(models.Model):
         for bom_line, line_data in exploded_lines:
             if self.route_id and self.route_id == bom_line.routing_id:
                 moves += self._generate_raw_move(bom_line, line_data)
+            if not self.route_id:
+                moves += self._generate_raw_move(bom_line, line_data)
         return moves
 
     @api.model
