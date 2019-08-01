@@ -13,6 +13,7 @@
                  <xpath expr="//div[hasclass('o_row')]" position="after">
                     <field name="route_id" widget="many2many_tags"/>
                     <field name="sub_route_id"  domain="[('id','in',route_id)]" />
+                    <field name="operation_ids"  invisible="1"/>
                 </xpath>
             </field>
         </record>
@@ -22,9 +23,12 @@
             <field name="model">mrp.bom</field>
             <field name="inherit_id" ref="mrp.mrp_bom_form_view"/>
             <field name="arch" type="xml">
+                <xpath expr="//field[@name='bom_line_ids']/tree/field[@name='operation_id']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                        </xpath>
 
-                <xpath expr="//field[@name='bom_line_ids']/tree/field[@name='operation_id']" position="before">
-                    <field name="routing_id" domain="[('id','in',parent.route_id)]"/>
+                <xpath expr="//field[@name='bom_line_ids']/tree/field[@name='product_qty']" position="after">
+                    <field name="operation_ids" widget="many2many_tags" context="{'special_display_name': True}" domain="[('id','in',parent.operation_ids)]"/>
                 </xpath>
             </field>
         </record>
