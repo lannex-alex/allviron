@@ -113,7 +113,7 @@ class MrpProduction(models.Model):
             parent_mo = self.env['mrp.production'].search([('name', '=', str(values.get('origin')))])
             if parent_mo:
                 if 'x_studio_client' in self.env['mrp.production']._fields:
-                    values['x_studio_client'] = parent_mo.x_studio_client_1
+                    values['x_studio_client'] = parent_mo.x_studio_client
                 if 'x_studio_po' in self.env['mrp.production']._fields:
                     values['x_studio_po'] = parent_mo.x_studio_po
         return super(MrpProduction, self).create(values)
